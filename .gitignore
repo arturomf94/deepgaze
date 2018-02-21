@@ -30,3 +30,13 @@
 # Folders
 build/
 *~
+
+# Virtual Environment
+/env
+
+
+# Colour test personalization
+
+examples/ex_color_detection_image/rodo.jpg
+record.txt
+
