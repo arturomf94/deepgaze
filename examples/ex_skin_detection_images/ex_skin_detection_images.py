@@ -25,10 +25,10 @@ from deepgaze.color_detection import RangeColorDetector
 min_range = np.array([0, 48, 70], dtype = "uint8") #lower HSV boundary of skin color
 max_range = np.array([20, 150, 255], dtype = "uint8") #upper HSV boundary of skin color
 my_skin_detector = RangeColorDetector(min_range, max_range) #Define the detector object
-image = cv2.imread("rodo.jpg") #Read the image with OpenCV
+image = cv2.imread("vale.jpg") #Read the image with OpenCV
 #We do not need to remove noise from this image so morph_opening and blur are se to False
 image_filtered = my_skin_detector.returnFiltered(image, morph_opening=False, blur=False, kernel_size=3, iterations=1)
-cv2.imwrite("rodo_filtered.jpg", image_filtered) #Save the filtered image
+cv2.imwrite("vale_filtered.jpg", image_filtered) #Save the filtered image
 
 # #Second image boundaries
 # min_range = np.array([0, 58, 50], dtype = "uint8") #lower HSV boundary of skin color
