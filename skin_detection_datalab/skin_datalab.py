@@ -7,7 +7,7 @@ import sys
 sys.path[0] = "/usr/local/lib/python2.7/dist-packages"
 import pdb
 import glob
-
+import colorgram
 import numpy as np
 import cv2
 from deepgaze.color_detection import RangeColorDetector
