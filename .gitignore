@@ -40,6 +40,3 @@ build/
 examples/ex_color_detection_image/rodo.jpg
 record.txt
 
-# Ignore new photos 
-rodo.jpg
-rodo_filtered.jpg

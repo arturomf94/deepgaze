@@ -4,6 +4,7 @@
 
 import colorgram
 import sys
+from face_detect import detect_faces
 sys.path[0] = "/usr/local/lib/python2.7/dist-packages"
 import pdb
 import glob
@@ -12,6 +13,7 @@ import numpy as np
 import cv2
 from deepgaze.color_detection import RangeColorDetector
 from PIL import Image
+import os.path
 
 #Firs image boundaries
 min_range = np.array([0, 48, 70], dtype = "uint8") #lower HSV boundary of skin color
@@ -19,10 +21,16 @@ max_range = np.array([20, 150, 255], dtype = "uint8") #upper HSV boundary of ski
 my_skin_detector = RangeColorDetector(min_range, max_range) #Define the detector object
 
 image_count = len(glob.glob1("/home/arturo/GitHub/deepgaze/skin_detection_datalab","*.jpg"))
-
 for i in range(1, image_count + 1):
 	image_name = "img (" + str(i) + ").jpg" 
-	image = cv2.imread(image_name) #Read the image with OpenCV
+	try:
+		detect_faces(image_name)
+	except:
+		pass
+	if(os.path.exists('face_' + image_name)):
+		image = cv2.imread('face_' + image_name) #Read the image with OpenCV
+	else:
+		image = cv2.imread(image_name)
 	image_filtered = my_skin_detector.returnFiltered(image, morph_opening=False, blur=False, kernel_size=3, iterations=1)
 	filtered_image_name = "filtered_" + image_name
 	cv2.imwrite(filtered_image_name, image_filtered) #Save the filtered image
