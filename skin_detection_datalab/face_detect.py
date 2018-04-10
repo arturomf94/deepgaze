@@ -7,16 +7,18 @@ CASCADE="Face_cascade.xml"
 FACE_CASCADE=cv2.CascadeClassifier(CASCADE)
 
 def detect_faces(image_path):
-
+	# import pdb;pdb.set_trace()
 	image=cv2.imread(image_path)
 	image_grey=cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 	faces = FACE_CASCADE.detectMultiScale(image_grey,scaleFactor=1.16,minNeighbors=15,minSize=(25,25),flags=0)
 
+	image_path = image_path[:52] + 'results/face_' + image_path[66:]
+
 	for x,y,w,h in faces:
 	    sub_img=image[y-12:y+h+12,x-12:x+w+12]
 	    # os.chdir("Extracted")
-	    cv2.imwrite('face_' + image_path,sub_img)
+	    cv2.imwrite(image_path, sub_img)
 	    # os.chdir("../")
 	    cv2.rectangle(image,(x,y),(x+w,y+h),(255, 255,0),2)
 
