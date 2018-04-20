@@ -42,7 +42,8 @@ for image_name in files:
 		image = cv2.imread(image_name)
 		# filtered_image_name = image_name[:52] + 'results/face_filtered_' + image_name[66:]
 	filtered_image_name = image_name[:52] + 'results/face_filtered_' + image_name[66:]
-	image_filtered = my_skin_detector.returnFiltered(image, morph_opening=False, blur=False, kernel_size=3, iterations=1)
+	image_filtered = my_skin_detector.returnFiltered(image, morph_opening=True, blur=True, kernel_size=3, iterations=3)
+	image_filtered = cv2.GaussianBlur(image_filtered,(15,15),8)
 	cv2.imwrite(filtered_image_name, image_filtered) #Save the filtered image
 	# Extract 3 colors from an image.
 	colors = colorgram.extract(filtered_image_name, 3)
