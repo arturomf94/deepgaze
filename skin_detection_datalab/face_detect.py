@@ -13,7 +13,7 @@ def detect_faces(image_path):
 
 	faces = FACE_CASCADE.detectMultiScale(image_grey,scaleFactor=1.16,minNeighbors=15,minSize=(25,25),flags=0)
 
-	image_path = image_path[:52] + 'results/face_' + image_path[66:]
+	image_path = image_path[:52] + 'results/face_' + image_path[59:]
 
 	for x,y,w,h in faces:
 	    sub_img=image[y-12:y+h+12,x-12:x+w+12]
