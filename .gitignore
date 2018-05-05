@@ -44,5 +44,6 @@ record.txt
 rodo.jpg
 rodo_filtered.jpg
 
-# test
+# zips
+*.zip
 
