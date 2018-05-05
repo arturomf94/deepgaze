@@ -13,6 +13,7 @@ import cv2
 from deepgaze.color_detection import RangeColorDetector
 from PIL import Image
 import os.path
+import math
 
 # min_range = np.array([0, 48, 70], dtype = "uint8") #lower HSV boundary of skin color
 # max_range = np.array([20, 150, 255], dtype = "uint8") #upper HSV boundary of skin color
@@ -32,7 +33,14 @@ data_path = os.path.join(folder_name,'*g')
 
 files = glob.glob(data_path)
 
-# import pdb;pdb.set_trace()
+number_of_files = len(files)
+
+all_rgb = [None] * number_of_files
+
+# import pdb; pdb.set_trace()
+
+# file index
+j = 0
 
 for image_name in files:
 	try:
@@ -59,7 +67,6 @@ for image_name in files:
 	out_of_bounds = [29, 29, 29]
 	i = 0
 	while((out_of_bounds[0] < limits[0] or out_of_bounds[1] < limits[1] or out_of_bounds[2] < limits[2]) and i <= 9):
-		#import pdb;pdb.set_trace()
 		rgb = colors[i].rgb
 		out_of_bounds = rgb
 		i = i + 1
@@ -71,3 +78,34 @@ for image_name in files:
 	img = Image.fromarray(array)
 	image_color_name = image_name[:52] + 'results/colour_' + image_name[59:]
 	img.save(image_color_name)
+
+	# store rbg values in list: 
+
+	all_rgb[j] = rgb
+	j = j + 1
+
+
+# get average rgb value out of all files and create image for visualization
+
+r = 0
+g = 0
+b = 0
+
+for sample in all_rgb:
+	r = r + sample[0]**2
+	g = g + sample[1]**2
+	b = b + sample[2]**2
+
+r = math.sqrt(r / number_of_files)
+g = math.sqrt(g / number_of_files)
+b = math.sqrt(b / number_of_files)
+
+average_rgb = [r, g, b]
+
+array = np.zeros([100, 200, 3], dtype=np.uint8)
+array[:,:100] = [average_rgb[0], average_rgb[1], average_rgb[2]]  
+array[:,100:] = [average_rgb[0], average_rgb[1], average_rgb[2]] 
+
+img = Image.fromarray(array)
+image_color_name = '/home/arturo/GitHub/deepgaze/skin_detection_datalab/results/average_colour.jpg'
+img.save(image_color_name)
