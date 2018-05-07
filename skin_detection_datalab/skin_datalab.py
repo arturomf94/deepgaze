@@ -35,9 +35,8 @@ files = glob.glob(data_path)
 
 number_of_files = len(files)
 
-all_rgb = [None] * number_of_files
-
 # import pdb; pdb.set_trace()
+all_rgb = [None] * number_of_files
 
 # file index
 j = 0
@@ -54,8 +53,8 @@ for image_name in files:
 		image = cv2.imread(image_name)
 		# filtered_image_name = image_name[:52] + 'results/face_filtered_' + image_name[66:]
 	filtered_image_name = image_name[:52] + 'results/face_filtered_' + image_name[59:]
-	image_filtered = my_skin_detector.returnFiltered(image, morph_opening = True, blur = True, kernel_size = 3, iterations = 3)
-	image_filtered = cv2.GaussianBlur(image_filtered,(37,37),30)
+	image_filtered = my_skin_detector.returnFiltered(image, morph_opening = True, blur = False, kernel_size = 3, iterations = 3)
+	image_filtered = cv2.GaussianBlur(image_filtered,(15,15),10)
 	cv2.imwrite(filtered_image_name, image_filtered) #Save the filtered image
 	# Extract 3 colors from an image.
 	colors = colorgram.extract(filtered_image_name, 10)
@@ -66,26 +65,32 @@ for image_name in files:
 	limits = [30, 30, 30]
 	out_of_bounds = [29, 29, 29]
 	i = 0
-	while((out_of_bounds[0] < limits[0] or out_of_bounds[1] < limits[1] or out_of_bounds[2] < limits[2]) and i <= 9):
+	while((out_of_bounds[0] < limits[0] or out_of_bounds[1] < limits[1] or out_of_bounds[2] < limits[2]) and i <= 3):
 		rgb = colors[i].rgb
 		out_of_bounds = rgb
-		i = i + 1
+		proportion = colors[i].proportion
+		i = i + 1	
 
-	array = np.zeros([100, 200, 3], dtype=np.uint8)
-	array[:,:100] = [rgb[0], rgb[1], rgb[2]]  
-	array[:,100:] = [rgb[0], rgb[1], rgb[2]] 
+	if proportion >= .05:		
+		try:
+			array = np.zeros([100, 200, 3], dtype=np.uint8)
+			array[:,:100] = [rgb[0], rgb[1], rgb[2]]  
+			array[:,100:] = [rgb[0], rgb[1], rgb[2]] 
 
-	img = Image.fromarray(array)
-	image_color_name = image_name[:52] + 'results/colour_' + image_name[59:]
-	img.save(image_color_name)
+			img = Image.fromarray(array)
+			image_color_name = image_name[:52] + 'results/colour_' + image_name[59:]
+			img.save(image_color_name)
 
-	# store rbg values in list: 
+			# store rbg values in list: 
 
-	all_rgb[j] = rgb
-	j = j + 1
-
+			all_rgb[j] = rgb
+			j = j + 1
+		except:
+			pass
 
 # get average rgb value out of all files and create image for visualization
+
+all_rgb = [rgb for rgb in all_rgb if rgb is not None]
 
 r = 0
 g = 0
@@ -96,9 +101,9 @@ for sample in all_rgb:
 	g = g + sample[1]**2
 	b = b + sample[2]**2
 
-r = math.sqrt(r / number_of_files)
-g = math.sqrt(g / number_of_files)
-b = math.sqrt(b / number_of_files)
+r = math.sqrt(r / j)
+g = math.sqrt(g / j)
+b = math.sqrt(b / j)
 
 average_rgb = [r, g, b]
 
