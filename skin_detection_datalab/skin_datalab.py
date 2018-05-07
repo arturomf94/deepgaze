@@ -72,7 +72,7 @@ for image_name in files:
 		proportion = colors[i].proportion
 		i = i + 1	
 
-	if proportion >= .05:		
+	if proportion >= .15:		
 		try:
 			array = np.zeros([100, 200, 3], dtype=np.uint8)
 			array[:,:100] = [rgb[0], rgb[1], rgb[2]]  
@@ -92,18 +92,15 @@ for image_name in files:
 # get average rgb value out of all files and create image for visualization
 
 all_rgb = [rgb for rgb in all_rgb if rgb is not None]
-proportions = [proportion for proportion in proportions if proportion is not None]
-
-total_proportions = sum(proportions) 
 
 r = 0
 g = 0
 b = 0
 
-for k in range(0, len(all_rgb)):
-	r = r + all_rgb[k][0]**2 * proportions[k] / total_proportions 
-	g = g + all_rgb[k][1]**2 * proportions[k] / total_proportions
-	b = b + all_rgb[k][2]**2 * proportions[k] / total_proportions
+for sample in all_rgb:
+	r = r + sample[0]**2
+	g = g + sample[1]**2
+	b = b + sample[2]**2
 
 r = math.sqrt(r / j)
 g = math.sqrt(g / j)
