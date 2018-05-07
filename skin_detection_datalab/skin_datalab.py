@@ -37,6 +37,7 @@ number_of_files = len(files)
 
 # import pdb; pdb.set_trace()
 all_rgb = [None] * number_of_files
+proportions = [None] * number_of_files
 
 # file index
 j = 0
@@ -82,7 +83,7 @@ for image_name in files:
 			img.save(image_color_name)
 
 			# store rbg values in list: 
-
+			proportions[j] = proportion
 			all_rgb[j] = rgb
 			j = j + 1
 		except:
@@ -91,15 +92,18 @@ for image_name in files:
 # get average rgb value out of all files and create image for visualization
 
 all_rgb = [rgb for rgb in all_rgb if rgb is not None]
+proportions = [proportion for proportion in proportions if proportion is not None]
+
+total_proportions = sum(proportions) 
 
 r = 0
 g = 0
 b = 0
 
-for sample in all_rgb:
-	r = r + sample[0]**2
-	g = g + sample[1]**2
-	b = b + sample[2]**2
+for k in range(0, len(all_rgb)):
+	r = r + all_rgb[k][0]**2 * proportions[k] / total_proportions 
+	g = g + all_rgb[k][1]**2 * proportions[k] / total_proportions
+	b = b + all_rgb[k][2]**2 * proportions[k] / total_proportions
 
 r = math.sqrt(r / j)
 g = math.sqrt(g / j)
