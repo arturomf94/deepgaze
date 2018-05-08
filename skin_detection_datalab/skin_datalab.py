@@ -72,7 +72,7 @@ for image_name in files:
 		proportion = colors[i].proportion
 		i = i + 1	
 
-	if proportion >= .15:		
+	if proportion >= .1:		
 		try:
 			array = np.zeros([100, 200, 3], dtype=np.uint8)
 			array[:,:100] = [rgb[0], rgb[1], rgb[2]]  
