@@ -55,7 +55,7 @@ for image_name in files:
 		# filtered_image_name = image_name[:52] + 'results/face_filtered_' + image_name[66:]
 	filtered_image_name = image_name[:52] + 'results/face_filtered_' + image_name[59:]
 	image_filtered = my_skin_detector.returnFiltered(image, morph_opening = True, blur = False, kernel_size = 3, iterations = 3)
-	image_filtered = cv2.GaussianBlur(image_filtered,(15,15),10)
+	image_filtered = cv2.GaussianBlur(image_filtered,(5,5),1)
 	cv2.imwrite(filtered_image_name, image_filtered) #Save the filtered image
 	# Extract 3 colors from an image.
 	colors = colorgram.extract(filtered_image_name, 10)
