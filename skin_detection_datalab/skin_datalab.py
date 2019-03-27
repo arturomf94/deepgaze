@@ -70,19 +70,19 @@ for image_name in files:
 		rgb = colors[i].rgb
 		out_of_bounds = rgb
 		proportion = colors[i].proportion
-		i = i + 1	
+		i = i + 1
 
-	if proportion >= .1:		
+	if proportion >= .1:
 		try:
 			array = np.zeros([100, 200, 3], dtype=np.uint8)
-			array[:,:100] = [rgb[0], rgb[1], rgb[2]]  
-			array[:,100:] = [rgb[0], rgb[1], rgb[2]] 
+			array[:,:100] = [rgb[0], rgb[1], rgb[2]]
+			array[:,100:] = [rgb[0], rgb[1], rgb[2]]
 
 			img = Image.fromarray(array)
 			image_color_name = image_name[:52] + 'results/colour_' + image_name[59:]
 			img.save(image_color_name)
 
-			# store rbg values in list: 
+			# store rbg values in list:
 			proportions[j] = proportion
 			all_rgb[j] = rgb
 			j = j + 1
@@ -109,8 +109,8 @@ b = math.sqrt(b / j)
 average_rgb = [r, g, b]
 
 array = np.zeros([100, 200, 3], dtype=np.uint8)
-array[:,:100] = [average_rgb[0], average_rgb[1], average_rgb[2]]  
-array[:,100:] = [average_rgb[0], average_rgb[1], average_rgb[2]] 
+array[:,:100] = [average_rgb[0], average_rgb[1], average_rgb[2]]
+array[:,100:] = [average_rgb[0], average_rgb[1], average_rgb[2]]
 
 img = Image.fromarray(array)
 image_color_name = '/home/arturo/GitHub/deepgaze/skin_detection_datalab/results/average_colour.jpg'

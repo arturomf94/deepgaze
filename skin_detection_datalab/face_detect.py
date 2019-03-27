@@ -2,7 +2,7 @@ from random import randint
 import cv2
 import sys
 import os
-      
+
 CASCADE="Face_cascade.xml"
 FACE_CASCADE=cv2.CascadeClassifier(CASCADE)
 
@@ -27,10 +27,10 @@ def detect_faces(image_path):
 	#	cv2.destroyAllWindows()
 
 # if __name__ == "__main__":
-	
+
 # 	if not "Extracted" in os.listdir("."):
 # 		os.mkdir("Extracted")
-    
+
 # 	if len(sys.argv) < 2:
 # 		print "Usage: python Detect_face.py 'image path'"
 # 		sys.exit()
